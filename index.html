@@ -341,7 +341,7 @@
         <div class="todo-stats" id="todoStats">0 items total</div>
         <ul id="todoList"></ul>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+    
     <script>
         let todos = [];
         let currentFilter = 'all';
@@ -418,7 +418,7 @@
                     <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
                 </li>
             `).join('');
-            new Sortable(todoList, { animation: 150, onEnd: () => saveTodos() });
+            
         }
         function getFilteredTodos() {
             switch (currentFilter) {
@@ -465,4 +465,5 @@
     </script>
 </body>
 </html>
+
 
