@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo App</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background 0.3s ease, color 0.3s ease;
         }
+        
+        /* Base body styles */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #333 0%, #000 100%);
@@ -21,11 +21,208 @@
             justify-content: center;
             padding: 20px;
             color: #fff;
+            transition: background 0.5s ease;
         }
+        
+        /* Theme Classes */
+        body.Theme-Heart {
+            background: linear-gradient(135deg, #330000 0%, #4d0000 50%, #660000 100%);
+        }
+        
+        body.Theme-Nature {
+            background: linear-gradient(135deg, #001a00 0%, #003300 50%, #004d00 100%);
+        }
+        
+        body.Theme-Star {
+            background: linear-gradient(135deg, #332900 0%, #4d3d00 50%, #665200 100%);
+        }
+        
+        body.Theme-Lavender {
+            background: linear-gradient(135deg, #1a0033 0%, #2b004d 50%, #3d0066 100%);
+        }
+        
+        body.Theme-Sky {
+            background: linear-gradient(135deg, #001a33 0%, #002b4d 50%, #003d66 100%);
+        }
+        
+        body.Theme-Comfort {
+            background: linear-gradient(135deg, #330033 0%, #4d004d 50%, #660066 100%);
+        }
+        
+        body.light-mode.Theme-Heart {
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffb3b3 50%, #ff8080 100%);
+        }
+        
+        body.light-mode.Theme-Nature {
+            background: linear-gradient(135deg, #e6ffe6 0%, #b3ffb3 50%, #80ff80 100%);
+        }
+        
+        body.light-mode.Theme-Star {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff2b3 50%, #ffeb80 100%);
+        }
+        
+        body.light-mode.Theme-Lavender {
+            background: linear-gradient(135deg, #f5e6ff 0%, #e0b3ff 50%, #cc80ff 100%);
+        }
+        
+        body.light-mode.Theme-Sky {
+            background: linear-gradient(135deg, #e6f7ff 0%, #b3e6ff 50%, #80d4ff 100%);
+        }
+        
+        body.light-mode.Theme-Comfort {
+            background: linear-gradient(135deg, #ffe6ff 0%, #ffb3ff 50%, #ff80ff 100%);
+        }
+        
         body.light-mode {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: #333;
         }
+        
+        /* Theme buttons at the very top */
+        .theme-top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        body.light-mode .theme-top-bar {
+            background: rgba(255, 255, 255, 0.3);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .theme-top-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 800px;
+            padding: 0 10px;
+        }
+        
+        .theme-top-button {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            position: relative;
+        }
+        
+        .theme-top-button:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .theme-top-button.active {
+            transform: scale(1.1);
+            border: 2px solid white;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        
+        body.light-mode .theme-top-button.active {
+            border: 2px solid #333;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .theme-top-button.active::after {
+            content: '✓';
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: #ff6666;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        body.light-mode .theme-top-button.active::after {
+            background: #333;
+            color: white;
+        }
+        
+        body.Theme-Heart .theme-top-button.active::after {
+            background: #ff0000;
+        }
+        
+        body.Theme-Nature .theme-top-button.active::after {
+            background: #00ff00;
+        }
+        
+        body.Theme-Star .theme-top-button.active::after {
+            background: #ffff00;
+            color: #333;
+        }
+        
+        body.Theme-Lavender .theme-top-button.active::after {
+            background: #ff00ff;
+        }
+        
+        body.Theme-Sky .theme-top-button.active::after {
+            background: #00bfff;
+        }
+        
+        body.Theme-Comfort .theme-top-button.active::after {
+            background: #9370db;
+        }
+        
+        body.light-mode .theme-top-button {
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.25);
+        }
+        
+        /* Controls */
+        .controls {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            z-index: 10;
+        }
+        
+        .mode-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #ff6666;
+            padding: 10px 20px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        body.light-mode .mode-toggle {
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            color: #333;
+        }
+        
+        .mode-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Todo Container */
         .todo-container {
             background: rgba(30, 30, 30, 0.95);
             backdrop-filter: blur(10px);
@@ -35,30 +232,64 @@
             width: 100%;
             max-width: 500px;
             animation: slideIn 0.5s ease-out;
-            position: relative;
+            margin-top: 80px; /* Space for theme bar */
+            transition: all 0.3s ease;
         }
+        
+        /* Theme-specific styles for todo container */
+        body.Theme-Heart .todo-container {
+            border: 2px solid rgba(255, 0, 0, 0.2);
+            box-shadow: 0 20px 40px rgba(255, 0, 0, 0.1);
+            background: rgba(51, 0, 0, 0.9);
+        }
+        
+        body.Theme-Nature .todo-container {
+            border: 2px solid rgba(0, 255, 0, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 255, 0, 0.1);
+            background: rgba(0, 26, 0, 0.9);
+        }
+        
+        body.Theme-Star .todo-container {
+            border: 2px solid rgba(255, 255, 0, 0.2);
+            box-shadow: 0 20px 40px rgba(255, 255, 0, 0.1);
+            background: rgba(51, 41, 0, 0.9);
+        }
+        
+        body.Theme-Lavender .todo-container {
+            border: 2px solid rgba(255, 0, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(255, 0, 255, 0.1);
+            background: rgba(26, 0, 51, 0.9);
+        }
+        
+        body.Theme-Sky .todo-container {
+            border: 2px solid rgba(0, 191, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 191, 255, 0.1);
+            background: rgba(0, 26, 51, 0.9);
+        }
+        
+        body.Theme-Comfort .todo-container {
+            border: 2px solid rgba(147, 112, 219, 0.2);
+            box-shadow: 0 20px 40px rgba(147, 112, 219, 0.1);
+            background: rgba(51, 0, 51, 0.9);
+        }
+        
         body.light-mode .todo-container {
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
+        
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .theme-toggle {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 10;
-        }
-        body.light-mode .theme-toggle {
-            color: #333;
-        }
+        
+        /* Headings with theme colors */
         h1 {
             text-align: center;
             color: #ff6b6b;
@@ -70,32 +301,52 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .progress-container {
-            width: 100%;
-            height: 8px;
-            background: rgba(50, 50, 50, 0.8);
-            border-radius: 4px;
-            margin-bottom: 20px;
-            overflow: hidden;
+        
+        body.Theme-Heart h1 {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        body.light-mode .progress-container {
-            background: rgba(200, 200, 200, 0.8);
+        
+        body.Theme-Nature h1 {
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-            width: 0%;
-            transition: width 0.3s ease;
-            border-radius: 4px;
+        
+        body.Theme-Star h1 {
+            background: linear-gradient(135deg, #ffff00, #ffcc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+        
+        body.Theme-Lavender h1 {
+            background: linear-gradient(135deg, #ff00ff, #cc00cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        body.Theme-Sky h1 {
+            background: linear-gradient(135deg, #00bfff, #0080ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        body.Theme-Comfort h1 {
+            background: linear-gradient(135deg, #9370db, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
         .input-container {
             display: flex;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             gap: 10px;
         }
+        
         #todoInput {
             flex: 1;
-            padding: 12px 15px;
+            padding: 15px 20px;
             border: 2px solid #555;
             border-radius: 12px;
             font-size: 16px;
@@ -104,44 +355,51 @@
             background: rgba(50, 50, 50, 0.8);
             color: #fff;
         }
+        
+        body.light-mode #todoInput {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border-color: #ddd;
+        }
+        
         #todoInput:focus {
             border-color: #ff6b6b;
             box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
             transform: translateY(-2px);
         }
-        body.light-mode #todoInput {
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-            border-color: #ccc;
+        
+        body.Theme-Heart #todoInput:focus {
+            border-color: #ff0000;
+            box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3);
         }
-        #prioritySelect {
-            padding: 12px 20px 12px 15px;
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-            appearance: none;
-            background-image:
-                linear-gradient(135deg, #ff6b6b, #ee5a52),
-                url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat, no-repeat;
-            background-position: center, right 12px center;
-            background-size: 100%, 12px;
-            min-width: 100px;
-            text-indent: 0.01px;
-            text-overflow: '';
+        
+        body.Theme-Nature #todoInput:focus {
+            border-color: #00ff00;
+            box-shadow: 0 0 0 3px rgba(0, 255, 0, 0.3);
         }
-        #prioritySelect option {
-            background: rgba(30, 30, 30, 0.95);
-            color: white;
+        
+        body.Theme-Star #todoInput:focus {
+            border-color: #ffff00;
+            box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.3);
         }
+        
+        body.Theme-Lavender #todoInput:focus {
+            border-color: #ff00ff;
+            box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.3);
+        }
+        
+        body.Theme-Sky #todoInput:focus {
+            border-color: #00bfff;
+            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.3);
+        }
+        
+        body.Theme-Comfort #todoInput:focus {
+            border-color: #9370db;
+            box-shadow: 0 0 0 3px rgba(147, 112, 219, 0.3);
+        }
+        
         #addBtn {
-            padding: 12px 20px;
+            padding: 15px 25px;
             background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             color: white;
             border: none;
@@ -152,12 +410,54 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
         }
+        
+        body.Theme-Heart #addBtn {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+        
+        body.Theme-Nature #addBtn {
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+        }
+        
+        body.Theme-Star #addBtn {
+            background: linear-gradient(135deg, #ffff00, #ffcc00);
+            box-shadow: 0 4px 15px rgba(255, 255, 0, 0.3);
+            color: #333;
+        }
+        
+        body.Theme-Lavender #addBtn {
+            background: linear-gradient(135deg, #ff00ff, #cc00cc);
+            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.3);
+        }
+        
+        body.Theme-Sky #addBtn {
+            background: linear-gradient(135deg, #00bfff, #0080ff);
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+        }
+        
+        body.Theme-Comfort #addBtn {
+            background: linear-gradient(135deg, #9370db, #7b68ee);
+            box-shadow: 0 4px 15px rgba(147, 112, 219, 0.3);
+        }
+        
+        #addBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        #addBtn:active {
+            transform: translateY(0);
+        }
+        
         .filter-container {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-bottom: 20px;
         }
+        
         .filter-btn {
             padding: 8px 16px;
             background: rgba(255, 107, 107, 0.1);
@@ -168,29 +468,90 @@
             color: #ff6b6b;
             font-weight: 500;
         }
-        body.light-mode .filter-btn {
-            background: rgba(255, 107, 107, 0.2);
-            color: #ff6b6b;
+        
+        body.Theme-Heart .filter-btn {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff0000;
         }
+        
+        body.Theme-Nature .filter-btn {
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+        }
+        
+        body.Theme-Star .filter-btn {
+            background: rgba(255, 255, 0, 0.1);
+            color: #ffff00;
+        }
+        
+        body.Theme-Lavender .filter-btn {
+            background: rgba(255, 0, 255, 0.1);
+            color: #ff00ff;
+        }
+        
+        body.Theme-Sky .filter-btn {
+            background: rgba(0, 191, 255, 0.1);
+            color: #00bfff;
+        }
+        
+        body.Theme-Comfort .filter-btn {
+            background: rgba(147, 112, 219, 0.1);
+            color: #9370db;
+        }
+        
         .filter-btn.active {
             background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             color: white;
             box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
         }
+        
+        body.Theme-Heart .filter-btn.active {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+        }
+        
+        body.Theme-Nature .filter-btn.active {
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.3);
+        }
+        
+        body.Theme-Star .filter-btn.active {
+            background: linear-gradient(135deg, #ffff00, #ffcc00);
+            box-shadow: 0 4px 10px rgba(255, 255, 0, 0.3);
+        }
+        
+        body.Theme-Lavender .filter-btn.active {
+            background: linear-gradient(135deg, #ff00ff, #cc00cc);
+            box-shadow: 0 4px 10px rgba(255, 0, 255, 0.3);
+        }
+        
+        body.Theme-Sky .filter-btn.active {
+            background: linear-gradient(135deg, #00bfff, #0080ff);
+            box-shadow: 0 4px 10px rgba(0, 191, 255, 0.3);
+        }
+        
+        body.Theme-Comfort .filter-btn.active {
+            background: linear-gradient(135deg, #9370db, #7b68ee);
+            box-shadow: 0 4px 10px rgba(147, 112, 219, 0.3);
+        }
+        
         .todo-stats {
             text-align: center;
             margin-bottom: 20px;
             color: #aaa;
             font-size: 14px;
         }
+        
         body.light-mode .todo-stats {
             color: #666;
         }
+        
         #todoList {
             list-style: none;
             max-height: 400px;
             overflow-y: auto;
         }
+        
         .todo-item {
             background: rgba(50, 50, 50, 0.8);
             margin-bottom: 10px;
@@ -198,40 +559,68 @@
             border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
             transition: all 0.3s ease;
-            border-left: 4px solid transparent;
+            border: 2px solid transparent;
             animation: fadeIn 0.3s ease-out;
         }
+        
         body.light-mode .todo-item {
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
         }
-        .todo-item.high { border-left-color: #ff6b6b; }
-        .todo-item.medium { border-left-color: #ff9f43; }
-        .todo-item.low { border-left-color: #2ecc71; }
+        
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
+        
         .todo-item:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 107, 107, 0.2);
         }
-        body.light-mode .todo-item:hover {
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        
+        body.Theme-Heart .todo-item:hover {
+            border-color: rgba(255, 0, 0, 0.2);
         }
+        
+        body.Theme-Nature .todo-item:hover {
+            border-color: rgba(0, 255, 0, 0.2);
+        }
+        
+        body.Theme-Star .todo-item:hover {
+            border-color: rgba(255, 255, 0, 0.2);
+        }
+        
+        body.Theme-Lavender .todo-item:hover {
+            border-color: rgba(255, 0, 255, 0.2);
+        }
+        
+        body.Theme-Sky .todo-item:hover {
+            border-color: rgba(0, 191, 255, 0.2);
+        }
+        
+        body.Theme-Comfort .todo-item:hover {
+            border-color: rgba(147, 112, 219, 0.2);
+        }
+        
         .todo-item.completed {
-            opacity: 0.7;
+            opacity: 0.6;
             background: rgba(0, 0, 0, 0.2);
         }
-        body.light-mode .todo-item.completed {
-            background: rgba(0, 0, 0, 0.05);
-        }
+        
         .todo-item.completed .todo-text {
             text-decoration: line-through;
             color: #777;
         }
+        
         .checkbox {
             width: 20px;
             height: 20px;
@@ -242,13 +631,42 @@
             position: relative;
             flex-shrink: 0;
         }
-        body.light-mode .checkbox {
-            border-color: #ccc;
-        }
+        
         .checkbox.checked {
             background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             border-color: #ff6b6b;
         }
+        
+        body.Theme-Heart .checkbox.checked {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            border-color: #ff0000;
+        }
+        
+        body.Theme-Nature .checkbox.checked {
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            border-color: #00ff00;
+        }
+        
+        body.Theme-Star .checkbox.checked {
+            background: linear-gradient(135deg, #ffff00, #ffcc00);
+            border-color: #ffff00;
+        }
+        
+        body.Theme-Lavender .checkbox.checked {
+            background: linear-gradient(135deg, #ff00ff, #cc00cc);
+            border-color: #ff00ff;
+        }
+        
+        body.Theme-Sky .checkbox.checked {
+            background: linear-gradient(135deg, #00bfff, #0080ff);
+            border-color: #00bfff;
+        }
+        
+        body.Theme-Comfort .checkbox.checked {
+            background: linear-gradient(135deg, #9370db, #7b68ee);
+            border-color: #9370db;
+        }
+        
         .checkbox.checked::after {
             content: '✓';
             position: absolute;
@@ -259,25 +677,22 @@
             font-size: 12px;
             font-weight: bold;
         }
+        
+        body.Theme-Star .checkbox.checked::after {
+            color: #333;
+        }
+        
         .todo-text {
             flex: 1;
             font-size: 16px;
             color: #fff;
             word-break: break-word;
         }
+        
         body.light-mode .todo-text {
             color: #333;
         }
-        .priority-tag {
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        .priority-tag.high { background: #ff6b6b; }
-        .priority-tag.medium { background: #ff9f43; }
-        .priority-tag.low { background: #2ecc71; }
+        
         .delete-btn {
             background: linear-gradient(135deg, #555, #333);
             color: white;
@@ -289,47 +704,139 @@
             font-size: 12px;
             flex-shrink: 0;
         }
-        body.light-mode .delete-btn {
-            background: linear-gradient(135deg, #ccc, #aaa);
-            color: #333;
-        }
+        
         .delete-btn:hover {
             background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
         }
+        
+        body.Theme-Heart .delete-btn:hover {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+        }
+        
+        body.Theme-Nature .delete-btn:hover {
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.4);
+        }
+        
+        body.Theme-Star .delete-btn:hover {
+            background: linear-gradient(135deg, #ffff00, #ffcc00);
+            box-shadow: 0 4px 15px rgba(255, 255, 0, 0.4);
+        }
+        
+        body.Theme-Lavender .delete-btn:hover {
+            background: linear-gradient(135deg, #ff00ff, #cc00cc);
+            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.4);
+        }
+        
+        body.Theme-Sky .delete-btn:hover {
+            background: linear-gradient(135deg, #00bfff, #0080ff);
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.4);
+        }
+        
+        body.Theme-Comfort .delete-btn:hover {
+            background: linear-gradient(135deg, #9370db, #7b68ee);
+            box-shadow: 0 4px 15px rgba(147, 112, 219, 0.4);
+        }
+        
         .empty-state {
             text-align: center;
             padding: 40px 20px;
             color: #777;
             font-style: italic;
         }
+        
         .empty-state::before {
             content: '📝';
             display: block;
             font-size: 3rem;
             margin-bottom: 10px;
         }
-        @media (max-width: 600px) {
-            .todo-container { margin: 10px; padding: 20px; }
-            h1 { font-size: 2rem; }
-            .input-container { flex-direction: column; }
-            .filter-container { flex-wrap: wrap; }
+        
+        /* Media queries */
+        @media (max-width: 768px) {
+            .theme-top-bar {
+                padding: 8px 0;
+            }
+            
+            .theme-top-buttons {
+                gap: 8px;
+            }
+            
+            .theme-top-button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3rem;
+            }
+            
+            .controls {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+                text-align: center;
+                width: 100%;
+            }
+            
+            .todo-container {
+                margin-top: 90px;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .input-container {
+                flex-direction: column;
+            }
+            
+            .filter-container {
+                flex-wrap: wrap;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .theme-top-button {
+                width: 35px;
+                height: 35px;
+                font-size: 1.1rem;
+            }
+            
+            .theme-top-button.active::after {
+                width: 16px;
+                height: 16px;
+                font-size: 0.7rem;
+                bottom: -4px;
+                right: -4px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="todo-container">
-        <button class="theme-toggle" id="themeToggle">🌙</button>
-        <h1>Todo App</h1>
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
+    <!-- Theme buttons at the very top -->
+    <div class="theme-top-bar">
+        <div class="theme-top-buttons" id="themeTopButtons">
+            <div class="theme-top-button active" data-theme="Default" title="Default Theme">📝</div>
+            <div class="theme-top-button" data-theme="Heart" title="Heart Theme">❤️</div>
+            <div class="theme-top-button" data-theme="Nature" title="Nature Theme">🌳</div>
+            <div class="theme-top-button" data-theme="Comfort" title="Comfort Theme">🩷</div>
+            <div class="theme-top-button" data-theme="Star" title="Star Theme">🌟</div>
+            <div class="theme-top-button" data-theme="Sky" title="Sky Theme">🩵</div>
+            <div class="theme-top-button" data-theme="Lavender" title="Lavender Theme">🪻</div>
         </div>
+    </div>
+    
+    <div class="controls">
+        <button class="mode-toggle" id="modeToggle">🌙 Dark Mode</button>
+    </div>
+    
+    <div class="todo-container">
+        <h1>Todo App</h1>
+
         <div class="input-container">
-            <select id="prioritySelect">
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select>
             <input type="text" id="todoInput" placeholder="What needs to be done?" maxlength="100">
             <button id="addBtn">Add Task</button>
         </div>
@@ -338,132 +845,230 @@
             <button class="filter-btn" data-filter="active">Active</button>
             <button class="filter-btn" data-filter="completed">Completed</button>
         </div>
-        <div class="todo-stats" id="todoStats">0 items total</div>
+        <div class="todo-stats" id="todoStats">
+            0 items total
+        </div>
         <ul id="todoList"></ul>
     </div>
     
     <script>
+        // Theme management variables
+        let isLightMode = false;
+        let currentTheme = 'Default';
+        
+        // Todo management variables
         let todos = [];
         let currentFilter = 'all';
-        let isDarkMode = true;
         const todoInput = document.getElementById('todoInput');
         const addBtn = document.getElementById('addBtn');
         const todoList = document.getElementById('todoList');
         const todoStats = document.getElementById('todoStats');
         const filterBtns = document.querySelectorAll('.filter-btn');
-        const themeToggle = document.getElementById('themeToggle');
-        const progressBar = document.getElementById('progressBar');
-        const prioritySelect = document.getElementById('prioritySelect');
-        // Initialize
-        addBtn.addEventListener('click', addTodo);
-        todoInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addTodo(); });
-        filterBtns.forEach(btn => btn.addEventListener('click', () => {
-            currentFilter = btn.dataset.filter;
-            updateFilterButtons();
-            renderTodos();
-        }));
-        themeToggle.addEventListener('click', toggleTheme);
-        // Load saved todos and theme
-        loadTodos();
-        loadTheme();
-        // Functions
+        const modeToggle = document.getElementById('modeToggle');
+        const themeTopButtons = document.getElementById('themeTopButtons');
+        
+        // Theme functions
+        function toggleMode() {
+            isLightMode = !isLightMode;
+            
+            if (isLightMode) {
+                document.body.classList.add('light-mode');
+                modeToggle.textContent = '☀️ Light Mode';
+            } else {
+                document.body.classList.remove('light-mode');
+                modeToggle.textContent = '🌙 Dark Mode';
+            }
+            
+            // Save mode to localStorage
+            localStorage.setItem('todoMode', isLightMode ? 'light' : 'dark');
+        }
+        
+        function changeTheme(theme) {
+            // Remove existing theme classes
+            document.body.classList.remove('Theme-Heart', 'Theme-Nature', 'Theme-Star', 
+                                        'Theme-Lavender', 'Theme-Sky', 'Theme-Comfort');
+            
+            // Remove active class from all theme buttons
+            document.querySelectorAll('.theme-top-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Add new theme class if not Default
+            if (theme !== 'Default') {
+                document.body.classList.add(`Theme-${theme}`);
+            }
+            
+            // Add active class to selected theme button
+            document.querySelector(`.theme-top-button[data-theme="${theme}"]`).classList.add('active');
+            
+            // Update current theme
+            currentTheme = theme;
+            
+            // Save theme to localStorage
+            localStorage.setItem('todoTheme', theme);
+        }
+        
+        // Initialize theme from localStorage
+        function initTheme() {
+            const savedTheme = localStorage.getItem('todoTheme');
+            const savedMode = localStorage.getItem('todoMode');
+            
+            if (savedTheme) {
+                changeTheme(savedTheme);
+            }
+            
+            if (savedMode === 'light') {
+                isLightMode = true;
+                document.body.classList.add('light-mode');
+                modeToggle.textContent = '☀️ Light Mode';
+            }
+        }
+        
+        // Todo functions
         function addTodo() {
             const text = todoInput.value.trim();
-            if (!text) return;
-            const priority = prioritySelect.value;
-            const todo = { id: Date.now(), text, completed: false, priority, createdAt: new Date() };
+            if (text === '') {
+                todoInput.focus();
+                return;
+            }
+            const todo = {
+                id: Date.now(),
+                text: text,
+                completed: false,
+                createdAt: new Date()
+            };
             todos.unshift(todo);
-            saveTodos();
             todoInput.value = '';
+            todoInput.focus();
             renderTodos();
             updateStats();
-            updateProgress();
-        }
-        function toggleTodo(id) {
-            todos = todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo);
             saveTodos();
-            renderTodos();
-            updateStats();
-            updateProgress();
         }
+        
         function deleteTodo(id) {
             todos = todos.filter(todo => todo.id !== id);
-            saveTodos();
             renderTodos();
             updateStats();
-            updateProgress();
+            saveTodos();
         }
-        function updateStats() {
-            const total = todos.length;
-            const completed = todos.filter(todo => todo.completed).length;
-            todoStats.textContent = `${total} item${total !== 1 ? 's' : ''} total • ${total - completed} active • ${completed} completed`;
+        
+        function toggleTodo(id) {
+            todos = todos.map(todo => {
+                if (todo.id === id) {
+                    return { ...todo, completed: !todo.completed };
+                }
+                return todo;
+            });
+            renderTodos();
+            updateStats();
+            saveTodos();
         }
-        function updateProgress() {
-            const total = todos.length;
-            const completed = todos.filter(todo => todo.completed).length;
-            const progress = total ? (completed / total) * 100 : 0;
-            progressBar.style.width = `${progress}%`;
+        
+        function getFilteredTodos() {
+            switch (currentFilter) {
+                case 'active':
+                    return todos.filter(todo => !todo.completed);
+                case 'completed':
+                    return todos.filter(todo => todo.completed);
+                default:
+                    return todos;
+            }
         }
+        
         function renderTodos() {
             const filteredTodos = getFilteredTodos();
+
             if (filteredTodos.length === 0) {
                 todoList.innerHTML = '<li class="empty-state">No tasks found. Add a new task above!</li>';
                 return;
             }
             todoList.innerHTML = filteredTodos.map(todo => `
-                <li class="todo-item ${todo.priority} ${todo.completed ? 'completed' : ''}" data-id="${todo.id}">
+                <li class="todo-item ${todo.completed ? 'completed' : ''}" data-id="${todo.id}">
                     <div class="checkbox ${todo.completed ? 'checked' : ''}" onclick="toggleTodo(${todo.id})"></div>
                     <span class="todo-text">${escapeHtml(todo.text)}</span>
-                    <span class="priority-tag ${todo.priority}">${todo.priority}</span>
                     <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
                 </li>
             `).join('');
-            
         }
-        function getFilteredTodos() {
-            switch (currentFilter) {
-                case 'active': return todos.filter(todo => !todo.completed);
-                case 'completed': return todos.filter(todo => todo.completed);
-                default: return todos;
+        
+        function updateStats() {
+            const total = todos.length;
+            const completed = todos.filter(todo => todo.completed).length;
+            const active = total - completed;
+            let statsText = `${total} item${total !== 1 ? 's' : ''} total`;
+            if (total > 0) {
+                statsText += ` • ${active} active • ${completed} completed`;
             }
+            todoStats.textContent = statsText;
         }
+        
         function updateFilterButtons() {
-            filterBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === currentFilter));
+            filterBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === currentFilter);
+            });
         }
-        function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            document.body.classList.toggle('light-mode', !isDarkMode);
-            themeToggle.textContent = isDarkMode ? '🌙' : '☀️';
-            localStorage.setItem('isDarkMode', isDarkMode);
-        }
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('isDarkMode');
-            if (savedTheme !== null) {
-                isDarkMode = savedTheme === 'true';
-                document.body.classList.toggle('light-mode', !isDarkMode);
-                themeToggle.textContent = isDarkMode ? '🌙' : '☀️';
-            }
-        }
-        function saveTodos() {
-            localStorage.setItem('todos', JSON.stringify(todos));
-        }
-        function loadTodos() {
-            const savedTodos = localStorage.getItem('todos');
-            if (savedTodos) todos = JSON.parse(savedTodos);
-            renderTodos();
-            updateStats();
-            updateProgress();
-        }
+        
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
-        // Expose functions to global scope for HTML onclick
-        window.toggleTodo = toggleTodo;
-        window.deleteTodo = deleteTodo;
+        
+        function saveTodos() {
+            localStorage.setItem('todos', JSON.stringify(todos));
+        }
+        
+        function loadTodos() {
+            const savedTodos = localStorage.getItem('todos');
+            if (savedTodos) {
+                todos = JSON.parse(savedTodos);
+            }
+        }
+        
+        // Initialize the app
+        function init() {
+            // Initialize theme
+            initTheme();
+            
+            // Theme button event listeners
+            document.querySelectorAll('.theme-top-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const theme = this.dataset.theme;
+                    changeTheme(theme);
+                });
+            });
+            
+            // Mode toggle event listener
+            modeToggle.addEventListener('click', toggleMode);
+            
+            // Todo event listeners
+            addBtn.addEventListener('click', addTodo);
+            todoInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addTodo();
+                }
+            });
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    currentFilter = this.dataset.filter;
+                    updateFilterButtons();
+                    renderTodos();
+                });
+            });
+            
+            // Load todos from localStorage
+            loadTodos();
+            
+            // Initial render
+            renderTodos();
+            updateStats();
+            todoInput.focus();
+        }
+        
+        // Start the application
+        init();
     </script>
 </body>
 </html>
-
-
